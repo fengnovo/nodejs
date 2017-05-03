@@ -12,7 +12,7 @@ http.get('http://news.163.com/17/0502/20/CJF84FA9000189FH.html', (res)=>{
     });
 
     res.on('end',()=>{
-        fs.writeFile('../a.html',body,'binary',(error,data)=>{
+        fs.writeFile('../a.html', body, 'binary', (error,data)=>{
             if(!error) console.log('完成!');
         });
     })
