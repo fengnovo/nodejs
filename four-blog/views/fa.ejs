@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/index.css' />
+  </head>
+  <body>
+      <p class="test"><%= title %></p>
+      <form aciton="/fa" method="post">
+          <p>标题：<input type="text" name="title"/></p>
+          <p>内容：<textarea name="content">
+              </textarea></p>
+          <input type="submit" value="提交" />
+      </form>
+  </body>
+</html>
