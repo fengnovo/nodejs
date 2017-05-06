@@ -22,11 +22,11 @@ router.get('/', function(req, res, next) {
     if(err){
       console.log(err);
       // res.send(':(  失败!');
-      res.render('index', { title: '高大上的博客',data: docs});
+      res.render('index', { title: '我的博客',data: docs});
     }else{
       // res.send(docs);
       console.log(docs);
-      res.render('index', { title: '高大上的博客',data: docs});
+      res.render('index', { title: '我的博客',data: docs});
     }
   })
 
