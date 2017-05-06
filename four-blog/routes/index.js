@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var MongoClient = require('mongodb').MongoClient; //mongodb客户端
+var ObjectId = require('mongodb').ObjectId;
 
 var url = 'mongodb://localhost:27017/four-blog';
 var msg;  //  留言表
@@ -63,7 +64,7 @@ router.get('/api/msgs', function(req, res, next) {
 
 
 router.delete('/api/msg/:id', function(req, res, next) {
-  var id = req.params.id;
+  var id = ObjectId(req.params.id);
   console.log(id);
   msg.remove({_id:id},(err,docs)=>{
     if(err){
