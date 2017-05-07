@@ -12,3 +12,7 @@
 后台cms模块 app.use('/admin',require('./routers/admin'))    
 API模块    app.use('/api',require('./routers/api'))    
 
+前台模块main
+
+
+http://www.mongoosejs.com/

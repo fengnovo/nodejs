@@ -7,6 +7,7 @@ var swig = require('swig');
 
 //创建app应用，相当于http.createServer()
 var app = express(); 
+var mongoose = require('mongoose');
 
 //配置expres的模板引擎
 app.engine('html',swig.renderFile);
@@ -31,6 +32,13 @@ app.use('/',require('./routers/main'));
 app.use('/admin',require('./routers/admin'));    
 app.use('/api',require('./routers/api'));   
 
-
-//监听请求
-app.listen(8081);
+mongoose.connect('mongodb://localhost:27017/blog',function(err){
+    if(err){
+        console.log('数据库连接失败');
+    }else{
+        console.log('数据库连接成功');
+        //监听请求
+        app.listen(8081);
+        console.log('正在监听8081端口，http://localhost:8081');
+    }
+}); //通过mongoose连接mongodb
