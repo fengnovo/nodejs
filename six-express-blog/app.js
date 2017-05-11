@@ -8,6 +8,7 @@ var swig = require('swig');
 //创建app应用，相当于http.createServer()
 var app = express(); 
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 
 //配置expres的模板引擎
 app.engine('html',swig.renderFile);
@@ -27,6 +28,8 @@ swig.setDefaults({cache:false})
 //      */
 //     res.render('index');
 // })
+
+app.use(bodyParser.urlencoded({extended: true}))  //设置能解析参数，否则req.body undefined
 
 app.use('/',require('./routers/main'));    
 app.use('/admin',require('./routers/admin'));    
