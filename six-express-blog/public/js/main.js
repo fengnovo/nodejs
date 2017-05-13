@@ -5,7 +5,7 @@ $(function(){
         "newestOnTop": false,
         "progressBar": false,
         "rtl": false,
-        "positionClass": "toast-top-center",
+        "positionClass": "toast-bottom-center",
         "preventDuplicates": false,
         "onclick": null,
         "showDuration": 300,
@@ -46,6 +46,11 @@ $(function(){
                 console.log(data);
                 if(data.code == 0){
                     toastr["success"](data.message);
+                    $('#loginPanel').hide();
+                    $('#usrNam').html($lf.find('[name="username"]').val().trim());
+                    $lf.find('[name="username"]').val('');
+                    $lf.find('[name="password"]').val('');
+                    $('#userInfo').show();
                 }else{
                     toastr["error"](data.message);
                 }
@@ -68,12 +73,21 @@ $(function(){
                 console.log(data);
                 if(data.code == 0){
                     toastr["success"](data.message);
+                    $rf.find('[name="username"]').val('');
+                    $rf.find('[name="password"]').val('');
+                    $rf.find('[name="repassword"]').val('');
+                    $('#login2').trigger('click');
                 }else{
                     toastr["error"](data.message);
                 }
             }
         })
     });
+
+    $('#logout').click(function(){
+        $('#userInfo').hide();
+        $('#loginPanel').show();
+    })
 
     
     // toastr["success"](" 注册成功！");

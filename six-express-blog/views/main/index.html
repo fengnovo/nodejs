@@ -110,13 +110,13 @@
         </div>
 
         <div class="col-sm-3">
-            <div class="panel panel-default">
+            <div id="userInfo" class="panel panel-default dsn">
                 <div class="panel-heading">
-                    个人信息    <a href="#" class="btn f-l m-t-5">退出</a>
+                    个人信息    <a href="javascript:void(0);" id="logout" class="btn f-l m-t-5" >退出</a>
                 </div>
                 <div class="panel-body">
                     <img src="/public/imgs/avatar.png" class="img-responsive img-rounded img-thumbnail" alt="me" />
-                    <p class="text-center text-primary">fengnovo</p>
+                    <p class="text-center text-primary" id="usrNam"></p>
                     <address>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>github</strong><br />
                         <span class="glyphicon glyphicon-home" title="Address">&nbsp;<code>深圳市南山区</code></span><br />
@@ -128,7 +128,7 @@
                     
                 </div>
             </div>
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" id="loginPanel">
                 <div class="panel-heading" id="login-text">
                     登录
                 </div>
