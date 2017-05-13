@@ -8,7 +8,7 @@ var swig = require('swig');
 //创建app应用，相当于http.createServer()
 var app = express(); 
 var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
+var bodyParser = require('body-parser'); //处理post过来的数据
 
 //配置expres的模板引擎
 app.engine('html',swig.renderFile);

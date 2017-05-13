@@ -1,4 +1,23 @@
 $(function(){
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "rtl": false,
+        "positionClass": "toast-top-center",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": 300,
+        "hideDuration": 1000,
+        "timeOut": 2000,
+        "extendedTimeOut": 500,
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+
     var $rf = $('#regForm')
     var $lf = $('#loginForm')
     var $lt = $('#login-text');
@@ -25,6 +44,12 @@ $(function(){
             dataType: 'json',
             success: function(data){
                 console.log(data);
+                if(data.code == 0){
+                    toastr["success"](data.message);
+                }else{
+                    toastr["error"](data.message);
+                }
+                
             }
         })
     });
@@ -41,10 +66,19 @@ $(function(){
             dataType: 'json',
             success: function(data){
                 console.log(data);
+                if(data.code == 0){
+                    toastr["success"](data.message);
+                }else{
+                    toastr["error"](data.message);
+                }
             }
         })
     });
 
-
+    
+    // toastr["success"](" 注册成功！");
+    //toastr["error"]("Inconceivable!")
+    //toastr["warning"]("I do not think that means what you think it means.")
+    //toastr["info"]("Have fun storming the castle!")
 
 })
