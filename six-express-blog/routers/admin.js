@@ -71,8 +71,12 @@ router.get('/category',function(req,res,next){
         page = Math.min(page,pages);   //取值不能超过pages
         page = Math.max(page,1);    //取值不能小于1
         skip = ( page -1 ) * limit;
+        /**
+         * 1,升序     时间戳从小到大  从最新到最久
+         * -1,降序    时间戳从大到小
+         */
 
-        Category.find().limit(limit).skip(skip).then(function(categories){
+        Category.find().sort({_id:-1}).limit(limit).skip(skip).then(function(categories){
             // console.log(users);
             res.render('admin/category_index',{
                 blogUserInfo: req.blogUserInfo,
