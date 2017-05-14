@@ -7,8 +7,8 @@
 6 silly lifecycle six-express-blog@1.0.0~prestart: no script for prestart, continuing
 7 info lifecycle six-express-blog@1.0.0~start: six-express-blog@1.0.0
 8 verbose lifecycle six-express-blog@1.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle six-express-blog@1.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/fengnovo/Desktop/github/nodejs/six-express-blog/node_modules/.bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
-10 verbose lifecycle six-express-blog@1.0.0~start: CWD: /Users/fengnovo/Desktop/github/nodejs/six-express-blog
+9 verbose lifecycle six-express-blog@1.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/tusm/Desktop/github/nodejs/six-express-blog/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/tusm/.rvm/bin:/usr/local/mysql/bin/mysql
+10 verbose lifecycle six-express-blog@1.0.0~start: CWD: /Users/tusm/Desktop/github/nodejs/six-express-blog
 11 silly lifecycle six-express-blog@1.0.0~start: Args: [ '-c', 'node app.js' ]
 12 silly lifecycle six-express-blog@1.0.0~start: Returned: code: 1  signal: null
 13 info lifecycle six-express-blog@1.0.0~start: Failed to exec start script
@@ -23,8 +23,8 @@
 14 verbose stack     at maybeClose (internal/child_process.js:886:16)
 14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
 15 verbose pkgid six-express-blog@1.0.0
-16 verbose cwd /Users/fengnovo/Desktop/github/nodejs/six-express-blog
-17 error Darwin 13.4.0
+16 verbose cwd /Users/tusm/Desktop/github/nodejs/six-express-blog
+17 error Darwin 16.5.0
 18 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "start"
 19 error node v6.10.2
 20 error npm  v3.10.10

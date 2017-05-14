@@ -38,11 +38,11 @@ app.use(function(req,res,next){
     req.blogUserInfo = {};  //
     try {
         var userCookies = req.cookies.get('blogUserInfo');
-        console.log(userCookies);
+        // console.log(userCookies);
         if(userCookies){
             req.blogUserInfo = JSON.parse(userCookies);
             User.findById(req.blogUserInfo.id).then(function(user){
-                console.log(user);
+                // console.log(user);
                 req.blogUserInfo.isAdmin = Boolean(user.isAdmin);
                 next();
             });

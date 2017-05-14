@@ -18,7 +18,7 @@ var responseData = {
  * 4.用户名是否已经被注册
  */
 router.post('/user/registe',function(req,res,next){
-    console.log(req.body);
+    // console.log(req.body);
     var username = req.body.username;
     var password = req.body.password;
     var repassword = req.body.repassword;
@@ -106,7 +106,7 @@ router.post('/user/login',function(req,res,next){
             username: username
         }).then(function(userInfo){
             if(userInfo){
-                console.log(userInfo);
+                // console.log(userInfo);
                 if(userInfo.password != password){
                     responseData = {
                         code: 3,
