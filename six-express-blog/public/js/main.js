@@ -46,11 +46,14 @@ $(function(){
                 console.log(data);
                 if(data.code == 0){
                     toastr["success"](data.message);
-                    $('#loginPanel').hide();
-                    $('#usrNam').html($lf.find('[name="username"]').val().trim());
-                    $lf.find('[name="username"]').val('');
-                    $lf.find('[name="password"]').val('');
-                    $('#userInfo').show();
+                    // $('#loginPanel').hide();
+                    // $('#usrNam').html(data.userInfo.username);
+                    // $lf.find('[name="username"]').val('');
+                    // $lf.find('[name="password"]').val('');
+                    // $('#userInfo').show();
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
                 }else{
                     toastr["error"](data.message);
                 }
@@ -85,8 +88,17 @@ $(function(){
     });
 
     $('#logout').click(function(){
-        $('#userInfo').hide();
-        $('#loginPanel').show();
+        $.ajax({
+            url: '/api/user/logout',
+            success: function(result){
+                if(result){
+                    toastr["success"]('退出成功！');
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+                }
+            }
+        });
     })
 
     

@@ -9,6 +9,8 @@ var swig = require('swig');
 var app = express(); 
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser'); //处理post过来的数据
+var Cookies = require('cookies');
+var User = require('./models/users.js');
 
 //配置expres的模板引擎
 app.engine('html',swig.renderFile);
@@ -30,6 +32,28 @@ swig.setDefaults({cache:false})
 // })
 
 app.use(bodyParser.urlencoded({extended: true}))  //设置能解析参数，否则req.body undefined
+
+app.use(function(req,res,next){
+    req.cookies = new Cookies(req,res);
+    req.blogUserInfo = {};  //
+    try {
+        var userCookies = req.cookies.get('blogUserInfo');
+        console.log(userCookies);
+        if(userCookies){
+            req.blogUserInfo = JSON.parse(userCookies);
+            User.findById(req.blogUserInfo.id).then(function(user){
+                console.log(user);
+                req.blogUserInfo.isAdmin = Boolean(user.isAdmin);
+                next();
+            });
+        }else{
+            next();
+        }
+    } catch (error) {
+        console.log(error);
+        next();
+    }
+})
 
 app.use('/',require('./routers/main'));    
 app.use('/admin',require('./routers/admin'));    

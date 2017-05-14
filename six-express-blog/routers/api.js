@@ -60,6 +60,13 @@ router.post('/user/registe',function(req,res,next){
                     username: username,
                     password: password
                 });
+                if(username == 'admin'){
+                    var user = new User({
+                        username: username,
+                        password: password,
+                        isAdmin: true
+                    });
+                }
                 return user.save();
                 
             }
@@ -110,20 +117,38 @@ router.post('/user/login',function(req,res,next){
                 }else{
                     responseData = {
                         code: 0,
-                        message: '登录成功！'
+                        message: '登录成功！',
+                        userInfo: {
+                            id: userInfo._id,
+                            username: userInfo.username
+                        }
                     }
+                    req.cookies.set('blogUserInfo',JSON.stringify({
+                        id: userInfo._id,
+                        username: userInfo.username
+                    }));
                     res.json(responseData);
                     return;
                 }
             }else{
-                var user = new User({
-                    username: 4,
-                    password: '该用户名不存在！'
-                });
+                responseData = {
+                    code: 4,
+                    message: '该用户名不存在！'
+                };
                 res.json(responseData);
             }
         });
     }
+});
+
+
+router.get('/user/logout',function(req,res,next){
+    req.cookies.set('blogUserInfo',null);
+    responseData = {
+        code: 0,
+        message: '退出成功！'
+    };
+    res.json(responseData);
 });
 
 module.exports = router;
