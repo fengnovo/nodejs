@@ -1,7 +1,7 @@
 var express = require('express');
 
 var router = express.Router();
-var User = require('../models/users.js');
+var User = require('../models/user.js');
 var Category = require('../models/category.js');
 var Article = require('../models/article.js');
 
@@ -268,8 +268,8 @@ router.get('/article',function(req,res,next){
          * -1,降序    时间戳从大到小
          */
 
-        Article.find().sort({_id:-1}).limit(limit).skip(skip).then(function(articles){
-            // console.log(users);
+        Article.find().sort({_id:-1}).limit(limit).skip(skip).populate(['category','user']).then(function(articles){
+            // console.log(articles[0]);
             res.render('admin/article_index',{
                 blogUserInfo: req.blogUserInfo,
                 articles: articles,
@@ -327,9 +327,11 @@ router.post('/article/add',function(req,res,next){
         new Article({
             category: category,
             title: title,
+            user: req.blogUserInfo._id,
             description: description,
             content: content
         }).save().then(function(rs){
+            // console.log(rs);
             if(rs){
                 res.render('admin/success',{
                     blogUserInfo: req.blogUserInfo,
@@ -347,5 +349,102 @@ router.post('/article/add',function(req,res,next){
     }
 });
 
+/**
+ * 文章的修改
+ */
+router.get('/article/edit',function(req,res,next){
+    var id = req.query.id || 0;
+    console.log(id);
+    
+    Article.findOne({
+        _id: id
+    }).populate('category').then(function(article){
+        // console.log(article);
+        if(!article){
+                res.render('admin/error',{
+                blogUserInfo: req.blogUserInfo,
+                message: '该文章不存在'
+            });
+        }else{
+            Category.find().sort({_id:-1}).then(function(categories){
+                res.render('admin/article_edit',{
+                    blogUserInfo: req.blogUserInfo,
+                    article: article,
+                    categories: categories
+                });
+            });
+        }
+    });
+});
+
+/**
+ * 文章的修改post请求
+ */
+router.post('/article/edit',function(req,res,next){
+    var id = req.body.id || 0;
+    var category = req.body.category || '';
+    var title = req.body.title || '';
+    var description = req.body.description || '';
+    var content = req.body.content || '';
+    // console.log({
+    //                 category: category,
+    //                 title: title,
+    //                 description: description,
+    //                 content: content
+    //             });
+    Article.findOne({
+        _id: id
+    }).then(function(article){
+        if(!article){
+            res.render('admin/error',{
+                blogUserInfo: req.blogUserInfo,
+                message: '该文章不存在'
+            });
+        }else{
+            return Article.update({
+                _id: id
+            },{
+                category: category,
+                title: title,
+                description: description,
+                content: content
+            });
+        }
+    }).then(function(){
+        res.render('admin/success',{
+            blogUserInfo: req.blogUserInfo,
+            message: '该文章修改成功',
+            url: '/admin/article/edit?id='+id
+        });
+    })
+});
+
+/**
+ * 内容的删除
+ */
+router.get('/article/delete',function(req,res,next){
+    var id = req.query.id || 0;
+
+    Article.findOne({
+        _id: id
+    }).then(function(article){
+        if(!article){
+                res.render('admin/error',{
+                blogUserInfo: req.blogUserInfo,
+                message: '该文章不存在'
+            });
+        }else{
+            Article.remove({
+                _id: id
+            }).then(function(){
+                res.render('admin/success',{
+                    blogUserInfo: req.blogUserInfo,
+                    message: '该文章删除成功',
+                    url: '/admin/article'
+                });
+            });
+        }
+    });
+});
 
 module.exports = router;

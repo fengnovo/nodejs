@@ -1,7 +1,7 @@
 var express = require('express');
 
 var router = express.Router();
-var User = require('../models/users.js');
+var User = require('../models/user.js');
 
 //统一返回格式
 var responseData = {
@@ -106,7 +106,8 @@ router.post('/user/login',function(req,res,next){
             username: username
         }).then(function(userInfo){
             if(userInfo){
-                // console.log(userInfo);
+                console.log('userInfo');
+                console.log(userInfo);
                 if(userInfo.password != password){
                     responseData = {
                         code: 3,
@@ -119,12 +120,12 @@ router.post('/user/login',function(req,res,next){
                         code: 0,
                         message: '登录成功！',
                         userInfo: {
-                            id: userInfo._id,
+                            _id: userInfo._id,
                             username: userInfo.username
                         }
                     }
                     req.cookies.set('blogUserInfo',JSON.stringify({
-                        id: userInfo._id,
+                        _id: userInfo._id,
                         username: userInfo.username
                     }));
                     res.json(responseData);

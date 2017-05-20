@@ -10,7 +10,7 @@ var app = express();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser'); //处理post过来的数据
 var Cookies = require('cookies');
-var User = require('./models/users.js');
+var User = require('./models/user.js');
 
 //配置expres的模板引擎
 app.engine('html',swig.renderFile);
@@ -38,12 +38,13 @@ app.use(function(req,res,next){
     req.blogUserInfo = {};  //
     try {
         var userCookies = req.cookies.get('blogUserInfo');
-        // console.log(userCookies);
         if(userCookies){
             req.blogUserInfo = JSON.parse(userCookies);
-            User.findById(req.blogUserInfo.id).then(function(user){
+            User.findById(req.blogUserInfo._id).then(function(user){
                 // console.log(user);
+                req.blogUserInfo._id = user._id;
                 req.blogUserInfo.isAdmin = Boolean(user.isAdmin);
+                // console.log(req.blogUserInfo);
                 next();
             });
         }else{
