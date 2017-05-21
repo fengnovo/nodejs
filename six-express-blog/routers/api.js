@@ -2,6 +2,7 @@ var express = require('express');
 
 var router = express.Router();
 var User = require('../models/user.js');
+var Article = require('../models/article.js');
 
 //统一返回格式
 var responseData = {
@@ -151,5 +152,32 @@ router.get('/user/logout',function(req,res,next){
     };
     res.json(responseData);
 });
+
+router.post('/detail/comment',function(req,res,next){
+    var articleId = req.body.articleId || '';
+    var postData = {
+        username: req.blogUserInfo.username,
+        postTime: new Date(),
+        content: req.body.content
+    }
+    console.log(postData);
+    Article.findOne({
+        _id: articleId
+    }).then(function(article){
+        console.log(article);
+        article.comments.push(postData);
+        return article.save();
+    }).then(function(newArticle){
+        responseData = {
+            code: 0,
+            article: newArticle,
+            message: '评论成功！'
+        };
+        res.json(responseData);
+    });
+
+})
+
+
 
 module.exports = router;

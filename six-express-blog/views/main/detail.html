@@ -10,6 +10,7 @@
     <link href="/public/css/main.css" rel="stylesheet">
     <script src="/public/libs/bootstrap-3.3.7-dist/js/jquery.js"></script>
     <script src="/public/libs/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="/public/libs/bootstrap-3.3.7-dist/js/bootstrap-paginator.js"></script>
     <script src="/public/libs/toastr/toastr.min.js"></script>
 </head>
 <body class="container">
@@ -52,45 +53,65 @@
     <div class="row">
         
         <div class="col-sm-9">
-            {% for article in articles.data %}
                 <div class="jumbotron m-p-small">
                     <p>
                         <h4 class="text-center">
-                            {{article.title}} <br/>
+                            {{detail.title}} <br/>
                             <small>
-                                作者：{{article.user.username}} &nbsp;&nbsp;
-                                栏目：{{article.category.name}} &nbsp;&nbsp;
-                                时间：{{article.addTime|date('Y-m-d H:i:s',-8*60)}} &nbsp;&nbsp;
-                                浏览量：{{article.viewsNum}}
+                                作者：{{detail.user.username}} &nbsp;&nbsp;
+                                栏目：{{detail.category.name}} &nbsp;&nbsp;
+                                时间：{{detail.addTime|date('Y-m-d H:i:s',-8*60)}} &nbsp;&nbsp;
+                                浏览量：{{detail.viewsNum}}
                             </small>
                         </h4>
                         <p>
                             <h5>
-                                {{article.description}}
+                                {{detail.description}}
                             </h5>
                             <br />
-                            <a href="/detail?id={{article.id}}" class="btn btn-primary"><span class="glyphicon glyphicon-send"></span> 查看详情</a>
+                            {{detail.content}} 
                         </p>
                     </p>
                 </div>
-            {% endfor %}
-            <div class="text-center">
-                <ul class="pagination">
-                    {% if articles.page > 1 %}
-                        <li><a href="?category={{category}}&page={{articles.page-1}}">&laquo;</a></li>
+
+                <div class="jumbotron m-p-small" id="commentArea">
+                     {% if blogUserInfo._id %}
+                    <form action="/detail/comment" method="post" class="comment-form">
+                        <input type="text" id="articleId" class="dsn" value="{{detail.id}}"/>
+                        <div class="form-group">
+                            <label for="comment" class="control-label">评论 
+                                <span class="pull-right">总共有<span id="commentNum">{{detail.comments.length}}</span>条评论</span>
+                            </label>
+                            <textarea class="form-control" name="comment" 
+                            id="comment" rows="3" placeholder="请输入内容"></textarea>
+                        </div>
+                        <button type="submit" id="commentBtn" class="btn btn-success f-l">确认</button>
+                    </form>
+                    <br />
+                    <br />
+                    {% else %}
+                    <div class="alert alert-danger comment-center" role="alert">
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                         <span class="alert-link">你还未登录！无法评论</span>
+                    </div>
                     {% endif %}
-                    {% for pagesItem in articles.pagesArr %}
-                        {% if pagesItem == articles.page %}
-                            <li class="active"><a href="?category={{category}}&page={{pagesItem}}">{{pagesItem}}</a></li>
-                        {% else %}
-                            <li><a href="?category={{category}}&page={{pagesItem}}">{{pagesItem}}</a></li>
-                        {% endif %}
-                    {% endfor %}
-                    {% if articles.page < articles.pages %}
-                        <li><a href="?category={{category}}&page={{articles.page+1}}">&raquo;</a></li>
+
+                    {% if detail.comments.length>0 %}
+                        <ul class="comment-ul">
+                            {% for comment in detail.comments.reverse() %}
+                                <li>
+                                    <span class="pull-left">{{comment.username}}</span>   <span class="pull-right">{{comment.postTime|date('Y-m-d H:i:s',-8*60)}}</span><br />
+                                    <p>{{comment.content}}</p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div id="hasNoComment" class="alert alert-info comment-center" role="alert">
+                            <span class="alert-link">还没有有留言</span>
+                        </div>
                     {% endif %}
-                </ul>
-            </div>
+
+                </div>
 
         </div>
 

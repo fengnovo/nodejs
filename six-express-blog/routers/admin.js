@@ -253,7 +253,7 @@ router.get('/category/delete',function(req,res,next){
  */
 router.get('/article',function(req,res,next){
     var page = Number(req.query.page || 1);
-    var limit = 20;
+    var limit = 5;
     var skip;
     var pages = 0;
 
