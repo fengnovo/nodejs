@@ -122,6 +122,8 @@ router.get('/detail',function(req,res,next){
         }else{
             resData.category = article.category.id;
             resData.detail = article;
+            article.viewsNum ++;
+            article.save();
             console.log(resData);
             res.render('main/detail',resData);
         }

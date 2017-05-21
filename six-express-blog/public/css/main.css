@@ -54,4 +54,22 @@ body{
     text-align: center;
 }
 
+.detail-title span{
+    font-size: 2.4rem;
+}
+
+.detail-title small {
+    font-size: 1.4rem;
+}
+
+
+.detail-content *{ 
+    font-size: 1.6rem !important;
+    word-break:break-all;
+}
+
+.detail-content img {
+    max-width: 100%;
+}
+
     

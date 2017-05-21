@@ -10,7 +10,6 @@
     <link href="/public/css/main.css" rel="stylesheet">
     <script src="/public/libs/bootstrap-3.3.7-dist/js/jquery.js"></script>
     <script src="/public/libs/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-    <script src="/public/libs/bootstrap-3.3.7-dist/js/bootstrap-paginator.js"></script>
     <script src="/public/libs/toastr/toastr.min.js"></script>
 </head>
 <body class="container">
@@ -55,8 +54,8 @@
         <div class="col-sm-9">
                 <div class="jumbotron m-p-small">
                     <p>
-                        <h4 class="text-center">
-                            {{detail.title}} <br/>
+                        <h4 class="text-center detail-title">
+                            <span>{{detail.title}}</span> <br/><br/>
                             <small>
                                 作者：{{detail.user.username}} &nbsp;&nbsp;
                                 栏目：{{detail.category.name}} &nbsp;&nbsp;
@@ -65,11 +64,13 @@
                             </small>
                         </h4>
                         <p>
-                            <h5>
+                            <h4>
                                 {{detail.description}}
-                            </h5>
+                            </h4>
                             <br />
-                            {{detail.content}} 
+                            <div class="detail-content">
+                                {{detail.content}}  
+                            </div>
                         </p>
                     </p>
                 </div>

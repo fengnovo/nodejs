@@ -22,7 +22,10 @@ app.use('/public',express.static(__dirname+'/public'));
 
 
 //开发时设置取消模板缓存
-swig.setDefaults({cache:false})
+swig.setDefaults({
+    cache: false,
+    autoescape: false
+})
 
 // app.get('/',function(req,res,next){
 //     /**
