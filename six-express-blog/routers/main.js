@@ -3,7 +3,6 @@ var express = require('express');
 var router = express.Router();
 var Category = require('../models/category.js');
 var Article = require('../models/article.js');
-var Category = require('../models/category.js');
 
 var resData = {
 }
