@@ -1,4 +1,31 @@
 $(function(){
+    function html_encode(str) {
+        var s = "";
+        if (str.length == 0) return "";
+        s = str.replace(/&/g, "&amp;");
+        s = s.replace(/</g, "&lt;");
+        s = s.replace(/>/g, "&gt;");
+        s = s.replace(/ /g, "&nbsp;");
+        s = s.replace(/\'/g, "&#39;");
+        s = s.replace(/\"/g, "&quot;");
+        s = s.replace(/\n/g, "<br>");
+        return s;
+    }
+
+
+    function html_decode(str) {
+        var s = "";
+        if (str.length == 0) return "";
+        s = str.replace(/&amp;/g, "&");
+        s = s.replace(/&lt;/g, "<");
+        s = s.replace(/&gt;/g, ">");
+        s = s.replace(/&nbsp;/g, " ");
+        s = s.replace(/&#39;/g, "\'");
+        s = s.replace(/&quot;/g, "\"");
+        s = s.replace(/<br>/g, "\n");
+        return s;
+    }
+
     toastr.options = {
         "closeButton": false,
         "debug": false,
@@ -46,11 +73,6 @@ $(function(){
                 console.log(data);
                 if(data.code == 0){
                     toastr["success"](data.message);
-                    // $('#loginPanel').hide();
-                    // $('#usrNam').html(data.userInfo.username);
-                    // $lf.find('[name="username"]').val('');
-                    // $lf.find('[name="password"]').val('');
-                    // $('#userInfo').show();
                     setTimeout(function(){
                         window.location.reload();
                     },1000);
@@ -62,6 +84,11 @@ $(function(){
         })
     });
     $('#reg2').click(function(){
+        var reg=/^[a-zA-Z0-9\-]{4,16}$/;
+        if(!reg.test($rf.find('[name="username"]').val().trim())){
+            toastr["error"]('只能输入字母，数字，下划线');
+            return ;
+        }
         //注册
         $.ajax({
             type: 'post',
@@ -117,6 +144,7 @@ $(function(){
         + formatNum(_date.getHours()) + ':' + formatNum(_date.getMinutes()) + ':' + formatNum(_date.getSeconds());  
     }
 
+    //提交评论成功后回调
     function refreshComment(comments) {
         var commentDom = '';
         var timeTip = new Date().getTime();
@@ -138,42 +166,13 @@ $(function(){
         })
 
         $('#commentNum').text(comments.length);
-    }
+    }    
 
-
-    	
-        function html_encode(str) {
-            var s = "";
-            if (str.length == 0) return "";
-            s = str.replace(/&/g, "&amp;");
-            s = s.replace(/</g, "&lt;");
-            s = s.replace(/>/g, "&gt;");
-            s = s.replace(/ /g, "&nbsp;");
-            s = s.replace(/\'/g, "&#39;");
-            s = s.replace(/\"/g, "&quot;");
-            s = s.replace(/\n/g, "<br>");
-            return s;
-        }
-
-
-        function html_decode(str) {
-            var s = "";
-            if (str.length == 0) return "";
-            s = str.replace(/&amp;/g, "&");
-            s = s.replace(/&lt;/g, "<");
-            s = s.replace(/&gt;/g, ">");
-            s = s.replace(/&nbsp;/g, " ");
-            s = s.replace(/&#39;/g, "\'");
-            s = s.replace(/&quot;/g, "\"");
-            s = s.replace(/<br>/g, "\n");
-            return s;
-        }
-
+    //点击评论按钮
     $('#commentBtn').click(function(e){
         e.preventDefault();
         e.stopPropagation();
-        var xx = $('#comment').val();
-        var commentText = $.trim(html_encode(xx));
+        var commentText = $.trim(html_encode($('#comment').val()));
         if(commentText == ''){
             alert('请输入评论内容');
             return;
