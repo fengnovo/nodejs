@@ -119,31 +119,71 @@ $(function(){
 
     function refreshComment(comments) {
         var commentDom = '';
+        var timeTip = new Date().getTime();
         for(var i = 0;i<comments.length; i++){
             commentDom += '<li><span class="pull-left">'+comments[i].username+'</span>'   
                         +'<span class="pull-right">'+formatDate(comments[i].postTime)+'</span><br />'
-                        +'<p>'+comments[i].content+'</p></li>'
+                        +'<p data-name="comment"></p></li>'
         }
+        
         if($('#hasNoComment')[0]){
             $('#hasNoComment').remove();
             $('#commentArea').append('<ul class="comment-ul">'+commentDom+'</ul>');
         }else{
             $('.comment-ul').html(commentDom);
         }
+        $('[data-name=comment]').map(function(i){
+            var ii = html_decode(comments[i].content);
+            $(this).text(ii)
+        })
+
         $('#commentNum').text(comments.length);
     }
 
 
+    	
+        function html_encode(str) {
+            var s = "";
+            if (str.length == 0) return "";
+            s = str.replace(/&/g, "&amp;");
+            s = s.replace(/</g, "&lt;");
+            s = s.replace(/>/g, "&gt;");
+            s = s.replace(/ /g, "&nbsp;");
+            s = s.replace(/\'/g, "&#39;");
+            s = s.replace(/\"/g, "&quot;");
+            s = s.replace(/\n/g, "<br>");
+            return s;
+        }
+
+
+        function html_decode(str) {
+            var s = "";
+            if (str.length == 0) return "";
+            s = str.replace(/&amp;/g, "&");
+            s = s.replace(/&lt;/g, "<");
+            s = s.replace(/&gt;/g, ">");
+            s = s.replace(/&nbsp;/g, " ");
+            s = s.replace(/&#39;/g, "\'");
+            s = s.replace(/&quot;/g, "\"");
+            s = s.replace(/<br>/g, "\n");
+            return s;
+        }
 
     $('#commentBtn').click(function(e){
         e.preventDefault();
         e.stopPropagation();
+        var xx = $('#comment').val();
+        var commentText = $.trim(html_encode(xx));
+        if(commentText == ''){
+            alert('请输入评论内容');
+            return;
+        }
         $.ajax({
             type: 'post',
             url: '/api/detail/comment',
             data: {
                 articleId: $('#articleId').val(),
-                content: $('#comment').val()
+                content: commentText
             },
             success: function(result){
                 console.log(result);
