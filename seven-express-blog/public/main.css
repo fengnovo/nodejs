@@ -1,0 +1,15 @@
+.top {
+    width: 100%;
+    height: 10rem;
+    background-color: #47a447;
+    color: #fff;
+    text-align: center;
+    line-height: 10rem;
+    font-size: 5rem;
+}
+
+.contents {
+    margin: 0 auto;
+    text-align: center;
+    width: 88%;
+}
