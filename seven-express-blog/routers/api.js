@@ -164,7 +164,6 @@ router.post('/detail/comment',function(req,res,next){
     Article.findOne({
         _id: articleId
     }).then(function(article){
-        console.log(article);
         article.comments.push(postData);
         return article.save();
     }).then(function(newArticle){
@@ -174,6 +173,12 @@ router.post('/detail/comment',function(req,res,next){
             message: '评论成功！'
         };
         res.json(responseData);
+    }).catch(e => {
+        console.log(e);
+        res.json({
+            code: 1,
+            message: '评论失败！'
+        });
     });
 
 })
